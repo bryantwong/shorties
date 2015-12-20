@@ -24,6 +24,25 @@ def open_clean(filepath):
     return text
 
 
+def count_frequencies(corpus):
+    '''
+    PARAMETERS:
+        <str> corpus: The corpus for which to count the frequencies
+    RETURNS:
+        dict: A dictionary {token(str): frequency(int)}
+    '''
+    print 'Counting token frequencies...'
+    freqs = dict()
+    tokens = nltk.word_tokenize(corpus)
+    corpus_length = len(tokens)
+    # Count the raw frequencies
+    for t in tokens:
+        freqs[t] = freqs.get(t, 0) + 1
+    # Normalize by corpus size.
+    normalized = {k: (float(v) / corpus_length) for k, v in freqs.iteritems()}
+    return normalized
+
+
 def generalize(tags):
     '''
     PARAMETERS:
@@ -60,10 +79,13 @@ def main(filepath, outpath):
     tags = nltk.pos_tag(tokens)
     general, mapping = generalize(tags)
     print 'Saving data...'
-    with open(outpath+'/general.txt', 'wb') as f:
+    with open(outpath + '/general.txt', 'wb') as f:
         f.write(general)
-    with open(outpath+'/mapping.txt', 'wb') as f:
+    with open(outpath + '/mapping.csv', 'wb') as f:
         f.write('\n'.join([k + ', ' + v for k, v in mapping.iteritems()]))
+    freqs = count_frequencies(general)
+    with open(outpath + '/freqs.csv', 'wb') as f:
+        f.write('\n'.join([str(k) + ', ' + str(v) for k, v in freqs.iteritems()]))
 
 if __name__ == '__main__':
     import argparse
