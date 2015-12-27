@@ -10,7 +10,7 @@ def generate_trigrams(corpus, filepath):
 		              end tags in data
 		<str> filepath: location that data is stored in Algorithmia
 		                data API
-    RETURNS:
+	RETURNS:
         filepath: location that data is stored in Algorithmia data API
                   (as confirmation)
 	'''
@@ -35,4 +35,4 @@ def generate_sentence(filepath):
 	print algo.pipe(input)
 
 def main():
-	
+
