@@ -3,8 +3,9 @@ import re
 
 
 # Opens a file containing a corpus and cleans the text.
-# Returns a string containing the cleaned data.
-def open_clean(filepath):
+# <str> eos: string representing the end of a sentence in the corpus
+# Returns a string containin'g the cleaned data.
+def open_clean(filepath, eos="xxEnD142xx xxBeGiN142xx"):
     text = ''
     with open(filepath, 'rb') as f:
         print 'Cleaning data...'
@@ -20,6 +21,8 @@ def open_clean(filepath):
         text = re.sub(r' +', ' ', text)
         # Convert to lowercase.
         text = text.lower()
+        # Replace punctuation with EOS character
+        text = re.sub(r'[.!?]', eos, text)
 
     return text
 
@@ -43,10 +46,11 @@ def count_frequencies(corpus):
     return normalized
 
 
-def generalize(tags):
+def generalize(tags, eos="xxEnD142xx xxBeGiN142xx"):
     '''
     PARAMETERS:
         [(str, str)] tags: list of tagged tuples
+        <str> eos: string representing the end of a sentence in the corpus
     RETURNS:
         <tuple> (general, mapping):
             -general is a string containing the original corpus with
@@ -62,7 +66,9 @@ def generalize(tags):
     for t in tags:
         word, tag = t
         # If we haven't seen this word yet...
-        if word not in mapping:
+        if word == eos:
+            mapping[word] = word
+        elif word not in mapping:
             # Increment the index for the tag
             pos_counters[tag] = pos_counters.get(tag, 0) + 1
             mapping[word] = str(tag) + str(pos_counters[tag])
