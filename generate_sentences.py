@@ -33,3 +33,6 @@ def generate_sentence(filepath):
 	client = Algorithmia.client('simfAKlzXJA516uRJm37b8tT9b31')
 	algo = client.algo('ngram/RandomTextFromTrigram/0.1.1')
 	print algo.pipe(input)
+
+def main():
+	
