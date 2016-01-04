@@ -5,24 +5,25 @@ import re
 # Opens a file containing a corpus and cleans the text.
 # <str> eos: string representing the end of a sentence in the corpus
 # Returns a string containin'g the cleaned data.
-def open_clean(filepath, eos="xxEnD142xx xxBeGiN142xx"):
+def open_clean(filepath, eos=" xxEnD142xx xxBeGiN142xx"):
     text = ''
     with open(filepath, 'rb') as f:
         print 'Cleaning data...'
         # Clean non-ascii compatible characters.
-        text = re.sub(r'[^\x00-\x7F]+', u'', f.read())
+        text = re.sub(r'[^\x00-\x7F]+', '', f.read())
 
-        # Remove all non-standard punctuation.
-        punct = r'["#$%&()*+,\-/:;<=>@\[\\\]^_`{|}~]'
-        text = re.sub(punct, '', text)
-        # Replace newlines with spaces.
-        text = re.sub(r'\r\n', ' ', text)
-        # Remove any double-spaces.
-        text = re.sub(r' +', ' ', text)
-        # Convert to lowercase.
-        text = text.lower()
-        # Replace punctuation with EOS character
-        text = re.sub(r'[.!?]', eos, text)
+    # Remove all non-standard punctuation.
+    punct = r'["#$%&()*+,\-/:;<=>@\[\\\]^_`{|}~]'
+    text = re.sub(punct, '', text)
+    # Replace newlines with spaces.
+    text = re.sub(r'\r\n', ' ', text)
+    # Convert to lowercase.
+    text = text.lower()
+    # Replace punctuation with EOS character
+    end, begin = eos.split()
+    text = begin + re.sub(r'[.!?]', eos, text) + end
+    # Remove any double-spaces.
+    text = re.sub(r' +', ' ', text)
 
     return text
 
@@ -46,7 +47,7 @@ def count_frequencies(corpus):
     return normalized
 
 
-def generalize(tags, eos="xxEnD142xx xxBeGiN142xx"):
+def generalize(tags, eos=" xxEnD142xx xxBeGiN142xx"):
     '''
     PARAMETERS:
         [(str, str)] tags: list of tagged tuples
@@ -62,11 +63,12 @@ def generalize(tags, eos="xxEnD142xx xxBeGiN142xx"):
     pos_counters = dict()
     mapping = dict()
     output = []
+    eos_tokens = frozenset(eos.split())
 
     for t in tags:
         word, tag = t
         # If we haven't seen this word yet...
-        if word == eos:
+        if word in eos_tokens:
             mapping[word] = word
         elif word not in mapping:
             # Increment the index for the tag
