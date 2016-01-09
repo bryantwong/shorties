@@ -8,7 +8,7 @@ def load_mapping(mappath):
     with open(mappath, 'rb') as f:
         reader = csv.reader(f)
         for line in reader:
-            mapping[line[1]] = line[0]
+            mapping[line[1].replace(" ","").] = line[0]
 
     return mapping
 
@@ -68,10 +68,11 @@ def convert_corpus(filepath, mapping, alignment, eos="xxEnD142xx xxBeGiN142xx"):
     return output
 
 def main(source_freq, target_freq, target_map, corpus_path, outpath):
-    source_dict = load_freqs(source)
-    target_dict = load_freqs(target)
+    source_dict = load_freqs(source_freq)
+    target_dict = load_freqs(target_freq)
     target_mapping = load_mapping(target_map)
     alignment = align(source_dict, target_dict)
+    print target_mapping
     final_corpus = convert_corpus(corpus_path, target_mapping, alignment)
     with open(outpath, 'wb') as f:
         f.write(final_corpus)
@@ -93,5 +94,5 @@ if __name__ == '__main__':
     parser.add_argument('output', help='The output path', type=str)
 
     args = parser.parse_args()
-    main(args.source_freq, args.target_freq, args.source_map, args.target_map, args.output)
+    main(args.source_freq, args.target_freq, args.target_map, args.corpus_path, args.output)
     exit()

@@ -45,7 +45,7 @@ def generate_sentence(filepath):
 def main(filepath, outpath, length):
 	story = ''
 	client = Algorithmia.client(api_key.key)
-	alg_path = "data://.algo/temp/trigrams.txt"
+	alg_path = "data://.algo/ngram/GenerateTrigramFrequencies/temp/trigrams.txt"
 	generate_trigrams(filepath, alg_path)
 	while len(re.findall(r'\w+', story)) < length:
 		print "Generating new paragraph..."
