@@ -1,5 +1,5 @@
 # Author Mashup (for [Algorithmia Shorties Contest](https://github.com/algorithmiaio/shorties))
-### by Bryant Wong and Logan Walls
+### by [Bryant Wong](https://github.com/bryantwong) and [Logan Walls](https://github.com/LoganWalls)
 
 Ever wondered what Plato's "Republic" would be like if James Joyce had written it? Or if Plato had written Joyce's "Dubliners?" Or maybe if Jane Austen had writen Joyce's "Ulysses?" (We just really like Joyce.) Our idea was to generate short stories that were mashups of any two authors (or two corpuses in general) by using one corpus to generate a sentence structure for the story, and the other corpus to provide vocabulary for the story to use.
 
@@ -13,11 +13,11 @@ Then, run `generate_sentences.py`. This heavily uses the Algorithmia API (namely
 Finally, run `convert_vocab.py`. This utilizes the mappings and frequency counts from both to pick the most commonly used words of each type in the second corpus and insert them into the structure created by the first corpus, making a mashup. Then, read your story and enjoy how nonsensical it is.
 
 ## Caveats ##
-Yeah, it still doesn't work very well (some of it might be nltk's fault!). But to make your story more readible, avoid:
+Yeah, it still doesn't work very well. We have a lot of problems with our algorithm to address. But to make your story more readable, avoid:
 1. Mashing up authors from different eras. The structure and most common parts of speech from different eras tend to be very different and you get some very odd sentences. The mapping tends not to work so well in those cases.
 2. Authors that use non-traditional words or non-traditional structures. Probably shouldn't have picked Joyce... At least we learned his structure and style is hard to emulate.
 
-##Some sample works: ##
+##Some sample works (read in edit mode due to lack of word-wrap): ##
 [Republic structure w/Dubliners vocabulary](https://github.com/bryantwong/shorties/blob/master/stories/republic_dubliners.txt)
 
 [Dubliners structure w/Republic vocabulary](https://github.com/bryantwong/shorties/blob/master/stories/dubliners_republic.txt)
