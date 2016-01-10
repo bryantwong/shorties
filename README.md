@@ -4,7 +4,7 @@
 Ever wondered what Plato's "Republic" would be like if James Joyce had written it? Or if Plato had written Joyce's "Dubliners?" Or maybe if Jane Austen had writen Joyce's "Ulysses?" (We just really like Joyce.) Our idea was to generate short stories that were mashups of any two authors (or two corpuses in general) by using one corpus to generate a sentence structure for the story, and the other corpus to provide vocabulary for the story to use.
 
 ## How it works ##
-Using the scripts is a bit of a pain, since it's a bit hacked together, but if you want to try it out, feel free to clone the repo. You will need [nltk](https://github.com/nltk/nltk) as well as your own Algorithmia API key.
+Using the scripts is a bit of a pain, since it's a bit hacked together, but if you want to try it out, feel free to clone the repo. You will need [nltk](https://github.com/nltk/nltk) as well as your own Algorithmia API key. It all runs in command line - look at the bottom of each Python script to see what arguments are needed (we know it's messy!).
 
 You want to run `corpus_to_tags.py` on both corpuses as this does our part of speech taggings, as well as generating counts for the frequencies of different part of speech.
 
@@ -14,7 +14,9 @@ Finally, run `convert_vocab.py`. This utilizes the mappings and frequency counts
 
 ## Caveats ##
 Yeah, it still doesn't work very well. We have a lot of problems with our algorithm to address. But to make your story more readable, avoid:
+
 1. Mashing up authors from different eras. The structure and most common parts of speech from different eras tend to be very different and you get some very odd sentences. The mapping tends not to work so well in those cases.
+
 2. Authors that use non-traditional words or non-traditional structures. Probably shouldn't have picked Joyce... At least we learned his structure and style is hard to emulate.
 
 ##Some sample works (read in edit mode due to lack of word-wrap): ##
