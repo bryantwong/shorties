@@ -1,5 +1,0 @@
-corpus 1 -> dictionary with frequency counts
-
-corpus 2 -> pos that shit -> make generic with pos -> run trigramFrequencies -> generate sentences (output)
-
-get frequency counts of output/corpus2, tokenize output and match highest frequencies together, sub matches into output from dictionary
