@@ -1,5 +1,5 @@
 # Author Mashup (for [Algorithmia Shorties Contest](https://github.com/algorithmiaio/shorties))
-## by Bryant Wong and Logan Walls
+### by Bryant Wong and Logan Walls
 
 Ever wondered what Plato's "Republic" would be like if James Joyce had written it? Or if Plato had written Joyce's "Dubliners?" Or maybe if Jane Austen had writen Joyce's "Ulysses?" (We just really like Joyce.) Our idea was to generate short stories that were mashups of any two authors (or two corpuses in general) by using one corpus to generate a sentence structure for the story, and the other corpus to provide vocabulary for the story to use.
 
@@ -19,7 +19,9 @@ Yeah, it still doesn't work very well (some of it might be nltk's fault!). But t
 
 ##Some sample works: ##
 [Republic structure w/Dubliners vocabulary](https://github.com/bryantwong/shorties/blob/master/stories/republic_dubliners.txt)
+
 [Dubliners structure w/Republic vocabulary](https://github.com/bryantwong/shorties/blob/master/stories/dubliners_republic.txt)
+
 [Ulysses structure w/ Pride and Prejudice vocabulary](https://github.com/bryantwong/shorties/blob/master/stories/ulysses_pride_prejudice.txt)
 
 Thanks and enjoy!
