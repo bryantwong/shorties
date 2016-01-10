@@ -5,7 +5,7 @@ import re
 # Opens a file containing a corpus and cleans the text.
 # <str> eos: string representing the end of a sentence in the corpus
 # Returns a string containin'g the cleaned data.
-def open_clean(filepath, eos=" xxEnD142xx xxBeGiN142xx"):
+def open_clean(filepath, eos=" xxEnD142xx xxBeGiN142xx "):
     text = ''
     with open(filepath, 'rb') as f:
         print 'Cleaning data...'
@@ -37,7 +37,7 @@ def count_frequencies(corpus):
     '''
     print 'Counting token frequencies...'
     freqs = dict()
-    tokens = nltk.word_tokenize(corpus)
+    tokens = corpus.split()
     corpus_length = len(tokens)
     # Count the raw frequencies
     for t in tokens:

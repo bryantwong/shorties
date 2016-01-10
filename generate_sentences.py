@@ -1,5 +1,5 @@
 import Algorithmia
-import api_key 
+import api_key
 import re
 from random import randint
 
@@ -9,7 +9,7 @@ def generate_trigrams(corpus, filepath):
 	'''
 	Generates a trained trigram model
 	PARAMETERS:
-		str[] corpus: array of strings generated from splitting 
+		str[] corpus: array of strings generated from splitting
 		              the original corpus. Needs beginning and
 		              end tags in data
 		<str> filepath: location that data is stored in Algorithmia
@@ -51,7 +51,7 @@ def main(filepath, outpath, length):
 		print "Generating new paragraph..."
 		input = ["data://.algo/ngram/GenerateTrigramFrequencies/temp/trigrams.txt", "xxBeGiN142xx", "xxEnD142xx", (randint(1,9))]
 		new_par = client.algo('/lizmrush/GenerateParagraphFromTrigram/0.1.2').pipe(input)
-		story += new_par
+		story += new_par.strip()
 		story += '\n\n'
 		print "Word count:"
 		print len(re.findall(r'\w+', story))

@@ -8,7 +8,7 @@ def load_mapping(mappath):
     with open(mappath, 'rb') as f:
         reader = csv.reader(f)
         for line in reader:
-            mapping[line[1].replace(" ","").] = line[0]
+            mapping[line[1].replace(" ","")] = line[0]
 
     return mapping
 
@@ -41,7 +41,7 @@ def align(source_d, target_d, x=4):
                 alignment[v[0]] = target_freqs[i][0]
             # Otherwise pair it with one of the lowest x frequency tokens.
             else:
-                alignment[v[0]] = target_freqs[-random.choice(list(range(1, x)))]
+                alignment[v[0]] = target_freqs[-random.choice(list(range(1, x)))][0]
 
     return alignment
 
@@ -49,21 +49,29 @@ def align(source_d, target_d, x=4):
 
 
 
-def convert_corpus(filepath, mapping, alignment, eos="xxEnD142xx xxBeGiN142xx"):
+def convert_corpus(filepath, mapping, alignment, begin="xxBeGiN142xx", end="xxEnD142xx"):
     general_corpus = ''
     with open(filepath, 'rb') as f:
-        general_corpus = re.sub(eos, '.', f.read())
+        general_corpus = re.sub('(' + begin + '\W+)+', ' . ', f.read())
+        general_corpus = re.sub('\n+', ' this_is_n3wline ', general_corpus)
 
     corpus = []
     for token in general_corpus.split():
-        if token == '.':
-            # If the token is punctuation assign a random punctuation.
-            corpus[-1] = corpus[-1] + random.choice(['.', '!', '?'])
+        if token.strip() == '.':
+            if len(corpus) > 0:
+                if '\n' not in corpus[-1]:
+                    # If the token is punctuation assign a random punctuation.
+                    corpus[-1] = corpus[-1] + random.choice(['.', '.', '.' , ',', ',', ',', '!', '?'])
+        elif token.strip() == 'this_is_n3wline':
+            corpus[-1] = corpus[-1] + '.\n\n'
+        elif  len(corpus) > 0 and re.search('[\n\.!?]',corpus[-1]):
+            corpus.append(mapping[alignment[token]].capitalize().strip())
         else:
-            corpus.append(mapping[alignment[token]])
-
+            corpus.append(mapping[alignment[token]].strip())
+    corpus[0] = corpus[0].capitalize()
     output = ' '.join(corpus)
     output = re.sub(r' +', ' ', output)
+    output = re.sub(r'\n+ ', '\n\n', output)
 
     return output
 
@@ -72,7 +80,6 @@ def main(source_freq, target_freq, target_map, corpus_path, outpath):
     target_dict = load_freqs(target_freq)
     target_mapping = load_mapping(target_map)
     alignment = align(source_dict, target_dict)
-    print target_mapping
     final_corpus = convert_corpus(corpus_path, target_mapping, alignment)
     with open(outpath, 'wb') as f:
         f.write(final_corpus)
