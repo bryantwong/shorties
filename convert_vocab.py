@@ -29,9 +29,14 @@ def load_freqs(path):
 
 def align(source_d, target_d, x=4):
     alignment = {}
+    to_match = ['JJ', 'JJR' , 'JJS', 'NN','NNS','NNP','NNPS','VB','VBD','VBG','VBN','VBP','VBZ']
     for token_type in source_d:
         source_freqs = source_d[token_type]
-        target_freqs = target_d[token_type]
+        try:
+            target_freqs = target_d[token_type]
+        except KeyError:
+            target_freqs = [('',1.0)]
+
 
         for i, v in enumerate(source_freqs):
 
@@ -39,8 +44,13 @@ def align(source_d, target_d, x=4):
             # then pair the two.
             if i < len(target_freqs):
                 alignment[v[0]] = target_freqs[i][0]
+            elif len(target_freqs) <= 2:
+                alignment[v[0]] = '<>'
             # Otherwise pair it with one of the lowest x frequency tokens.
             else:
+
+                if len(target_freqs) <= x:
+                    x = len(target_freqs) - 1
                 alignment[v[0]] = target_freqs[-random.choice(list(range(1, x)))][0]
 
     return alignment
@@ -61,18 +71,18 @@ def convert_corpus(filepath, mapping, alignment, begin="xxBeGiN142xx", end="xxEn
             if len(corpus) > 0:
                 if '\n' not in corpus[-1]:
                     # If the token is punctuation assign a random punctuation.
-                    corpus[-1] = corpus[-1] + random.choice(['.', '.', '.' , ',', ',', ',', '!', '?'])
+                    corpus[-1] = corpus[-1] + random.choice(['.', '.', '.' , ',', ',' ',', '!', '?'])
         elif token.strip() == 'this_is_n3wline':
             corpus[-1] = corpus[-1] + '.\n\n'
-        elif  len(corpus) > 0 and re.search('[\n\.!?]',corpus[-1]):
-            corpus.append(mapping[alignment[token]].capitalize().strip())
-        else:
-            corpus.append(mapping[alignment[token]].strip())
+        elif alignment[token] in mapping:
+            if  len(corpus) > 0 and re.search('[\n\.!?]',corpus[-1]):
+                corpus.append(mapping[alignment[token]].capitalize().strip())
+            else:
+                corpus.append(mapping[alignment[token]].strip())
     corpus[0] = corpus[0].capitalize()
     output = ' '.join(corpus)
     output = re.sub(r' +', ' ', output)
     output = re.sub(r'\n+ ', '\n\n', output)
-
     return output
 
 def main(source_freq, target_freq, target_map, corpus_path, outpath):

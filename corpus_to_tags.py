@@ -13,12 +13,12 @@ def open_clean(filepath, eos=" xxEnD142xx xxBeGiN142xx "):
         text = re.sub(r'[^\x00-\x7F]+', '', f.read())
 
     # Remove all non-standard punctuation.
-    punct = r'["#$%&()*+,\-/:;<=>@\[\\\]^_`{|}~]'
-    text = re.sub(punct, '', text)
+    punct = r'["#$%&()*+,\-/:;<=>@\[\\\]^_`{|}~\']'
+    text = re.sub(punct, ' ', text)
     # Replace newlines with spaces.
     text = re.sub(r'\r\n', ' ', text)
     # Convert to lowercase.
-    text = text.lower()
+    #text = text.lower()
     # Replace punctuation with EOS character
     end, begin = eos.split()
     text = begin + re.sub(r'[.!?]', eos, text) + end

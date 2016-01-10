@@ -51,6 +51,8 @@ def main(filepath, outpath, length):
 		print "Generating new paragraph..."
 		input = ["data://.algo/ngram/GenerateTrigramFrequencies/temp/trigrams.txt", "xxBeGiN142xx", "xxEnD142xx", (randint(1,9))]
 		new_par = client.algo('/lizmrush/GenerateParagraphFromTrigram/0.1.2').pipe(input)
+		if len(re.findall(r'\w+', story)) + len(re.findall(r'\w+', new_par)) > length:
+			break
 		story += new_par.strip()
 		story += '\n\n'
 		print "Word count:"
